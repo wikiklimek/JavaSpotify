@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/callback")
 public class SpotifyCallbackServletEmail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	SpotifyAuthModel model;
 	SpotifyAuthDictionaries dictionary;
 	String scope;
 	String info_to_get;
 	
 	@Override
 	public void init() throws ServletException {
-		model = new SpotifyAuthModel();
-		dictionary = new SpotifyAuthDictionaries(model);
+		SpotifyAuthModel model = new SpotifyAuthModel();
+		SpotifyCallbackRedirectFunctions redirectFunctions = new SpotifyCallbackRedirectFunctions();
+		dictionary = new SpotifyAuthDictionaries(model, redirectFunctions);
     	scope = "user-read-email";
     	info_to_get = "my-email";
 	}
@@ -32,7 +32,9 @@ public class SpotifyCallbackServletEmail extends HttpServlet {
         String authorizationCode = request.getParameter("code");
         if (authorizationCode != null) 
         {
-        	response.getWriter().println(dictionary.getInfo(authorizationCode, info_to_get));
+        	//response.getWriter().println(dictionary.getInfo(authorizationCode, info_to_get));
+        	//redirrectToView(request, response, dictionary.getInfo(authorizationCode, info_to_get));
+        	dictionary.getInfo(authorizationCode, info_to_get, request, response);
         } 
         else 
         {
@@ -50,4 +52,7 @@ public class SpotifyCallbackServletEmail extends HttpServlet {
         String authorizationUrl = SpotifyPaths.getAuthorizationUrl(scope);
         response.sendRedirect(authorizationUrl); 
     }
-}
+    
+    
+    
+    }

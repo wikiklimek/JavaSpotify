@@ -18,9 +18,17 @@ public  class Album {
     private List<Artist> artists;
     private boolean is_playable;
     private Restrictions restrictions; 
+    private int topNumber;
 
-    
     // Getters and Setters
+    public int getTopNumber() {
+        return topNumber;
+    }
+
+    public void setTopNumber(int topNumber) {
+        this.topNumber = topNumber;
+    }
+    
     public Restrictions getRestrictions() {
         return restrictions;
     }

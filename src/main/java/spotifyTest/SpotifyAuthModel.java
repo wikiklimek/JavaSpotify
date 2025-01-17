@@ -78,7 +78,7 @@ private String getResponseString(String stringURL, String accessToken) throws IO
     return readResponseStringFromConnection(connection);
 }
  
- public String getUserEmail(String accessToken) throws IOException {
+ public UserProfile getUserEmail(String accessToken) throws IOException {
 
 	 try {
 	    	
@@ -96,75 +96,59 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	         System.out.println(e.getMessage());
 	     }
 	     
-	     StringBuilder my_info = new StringBuilder();
-	     my_info.append("email: ");
-	     my_info.append(user_profile.getEmail());
-	     
-	     return my_info.toString();
-	     
+	     return user_profile;
      }
 	 catch(IOException e)
 	 {
 		 System.out.println(e.getMessage());
-		 return e.getMessage();
+		 //return e.getMessage();
+		 return new UserProfile();
 	 }
  }
  
- public String getTop1PlayedTrack(String accessToken) throws IOException {
+ public List<Track> getTop1PlayedTrack(String accessToken) throws IOException {
 	    return getTopPlayedTracks(accessToken, "?limit=1");
 	}
  
- public String getTop10PlayedTracks(String accessToken) throws IOException {
+ public List<Track> getTop10PlayedTracks(String accessToken) throws IOException {
 	    return getTopPlayedTracks(accessToken, "?limit=10");
 	}
  
- private String getTopPlayedTracks(String accessToken, String limit) throws IOException {
+ private List<Track> getTopPlayedTracks(String accessToken, String limit) throws IOException {
 	 try
 	 {
 	    List<Track> tracks = getTopPlayedTracksList(accessToken, limit);
+	    
+	    int i = 0;
+	    for(Track track:tracks)
+	        track.setTopNumber(++i);
 	        
-	    StringBuilder my_info = new StringBuilder();
-	    for(Track track : tracks)
-	    {
-		    my_info.append("name: ");
-		    my_info.append(track.getName());
-		    my_info.append("\nalbum: ");
-		    my_info.append(track.getAlbum().getName());
-		        
-		    my_info.append("\nartists: ");
-		    for(Artist artist : track.getArtists())
-		    {
-		        my_info.append("\n name: ");
-				my_info.append(artist.getName());
-		    }
-		    my_info.append("\n\n");
-	    }
-	        
-	    return my_info.toString();
+	    return tracks;
 	   }
 	   catch(IOException e)
 	   {
 		   System.out.println(e.getMessage());
-		  	return e.getMessage();
+		  	//return e.getMessage();
+		   return new ArrayList<Track>();
 		}
 	}
  
- public String get1RecentlyPlayedTrack(String accessToken) throws IOException {
+ public List<Track> get1RecentlyPlayedTrack(String accessToken) throws IOException {
 	 return getRecentlyPlayedTracks(accessToken, "?limit=1");
  }
  
- public String get10RecentlyPlayedTracks(String accessToken) throws IOException {
+ public List<Track> get10RecentlyPlayedTracks(String accessToken) throws IOException {
 	 return getRecentlyPlayedTracks(accessToken, "?limit=10");
  }
  
- private String getRecentlyPlayedTracks(String accessToken, String limit) throws IOException {
+ private List<Track> getRecentlyPlayedTracks(String accessToken, String limit) throws IOException {
 
 	    String recentlyPlayedURL = RECENTLY_PLAYED_URL + limit;
 
 	    try {
 	    	
 	    	String jsonResponse = getResponseString(recentlyPlayedURL, accessToken);
-	    	StringBuilder my_info = new StringBuilder();
+	    	//StringBuilder my_info = new StringBuilder();
 	    	
 	    	ObjectMapper mapper = new ObjectMapper();
 	        SpotifyRecentlyResponse spotify_response = new SpotifyRecentlyResponse();
@@ -178,60 +162,49 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	        	System.out.println(e.getMessage());
 	        }
 	        
-	        for(RecentlyItem item : spotify_response.getItems())
-	        {
-	        	Track track = item.getTrack();
-	        	 my_info.append("name: ");
-			     my_info.append(track.getName());
-			     my_info.append("\nalbum: ");
-			     my_info.append(track.getAlbum().getName());
-			        
-			     my_info.append("\nartists: ");
-			     for(Artist artist : track.getArtists())
-			     {
-			         my_info.append("\n name: ");
-					 my_info.append(artist.getName());
-			     }
-			     my_info.append("\n\n");
-	        }
-	        return my_info.toString();
 	        
+	        List<Track> tracks = new ArrayList<Track>();
+	        for(RecentlyItem item : spotify_response.getItems())
+	        	tracks.add(item.getTrack());
+	        
+	        int i = 0;
+		    for(Track track:tracks)
+		        track.setTopNumber(++i);
+	        
+	        return tracks;
 	    }
 	    catch(IOException e)
 	    {
 	    	System.out.println(e.getMessage());
-	    	return e.getMessage();
+	    	//return e.getMessage();
+	    	return new ArrayList<Track>();
 	    }
 	}
  
- public String getTop10Artists(String accessToken) throws IOException {
+ public List<Artist> getTop10Artists(String accessToken) throws IOException {
 	 return getTopArtists(accessToken, "?limit=10");
  }
  
- public String getTop1Artist(String accessToken) throws IOException {
+ public List<Artist> getTop1Artist(String accessToken) throws IOException {
 	 return getTopArtists(accessToken, "?limit=1");
 	}
  
- private String getTopArtists(String accessToken, String limit) throws IOException {
+ private List<Artist> getTopArtists(String accessToken, String limit) throws IOException {
 	    try {
 	    	List<Artist> topArtistList = getTopArtistsList(accessToken, limit);
-	        StringBuilder my_info = new StringBuilder();
-	        for(Artist artist : topArtistList)
-	        {
-		        my_info.append("name: ");
-		        my_info.append(artist.getName());
-		        my_info.append("\ngenres: ");
-		        my_info.append(artist.getGenres());
-		        my_info.append("\n\n");
-	        }
-	        
-	        return my_info.toString();
-	        
+	    	
+	    	
+	    	int i = 0;
+		    for(Artist artist:topArtistList)
+		        artist.setTopNumber(++i);
+		    
+	    	return topArtistList;
 	    }
 	    catch(IOException e)
 	    {
 	    	System.out.println(e.getMessage());
-	    	return e.getMessage();
+	    	//return e.getMessage();
+	    	return new ArrayList<Artist>();
 	    }
 	}
  
@@ -285,15 +258,15 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	    }
 	}
  
- public String getTop10Genres(String accessToken) throws IOException {
+ public List<Genre> getTop10Genres(String accessToken) throws IOException {
 	 return getTopGenres(accessToken, 10);
  }
  
- public String getTop25Genres(String accessToken) throws IOException {
+ public List<Genre> getTop25Genres(String accessToken) throws IOException {
 	 return getTopGenres(accessToken, 25);
  }
  
- private String getTopGenres(String accessToken, int limit) throws IOException {
+ private List<Genre> getTopGenres(String accessToken, int limit) throws IOException {
 	 Map<String, Integer> map_genres_unsorted = getTopGenresMap(accessToken);
 	 Map<String, Integer> map_genres = Sort.sortByValue(map_genres_unsorted);
 	 List<String> list_genres = new ArrayList<String>(map_genres.keySet());
@@ -302,19 +275,12 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 		    System.out.println(entry.getKey() + "/" + entry.getValue());
 	}
 	 
-	 StringBuilder my_info = new StringBuilder();
-	 my_info.append("Top ");
-	 my_info.append(limit);
-	 my_info.append(" Genres\n");
-	 for(int i = 0; i< Math.min(limit, list_genres.size()); i++)
-	 {
-		 my_info.append(i + 1);
-		 my_info.append(". ");
-		 my_info.append(list_genres.get(i));
-		 my_info.append('\n');
-	 }
 	 
-	 return my_info.toString();
+	 List<Genre> genres_return = new ArrayList<Genre>();
+	 for(int i = 0; i< Math.min(limit, list_genres.size()); i++)
+		 genres_return.add(new Genre(list_genres.get(i), i));
+	 
+	 return genres_return;
  }
  
  private List<Artist> getTopArtistsList(String accessToken, String limit) throws IOException {

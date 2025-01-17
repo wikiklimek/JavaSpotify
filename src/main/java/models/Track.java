@@ -22,8 +22,16 @@ public class Track extends TopItem {
         private String uri;
         private boolean is_local;
         private Restrictions restrictions; 
+        private int topNumber;
 
         // Getters and Setters
+        public int getTopNumber() {
+            return topNumber;
+        }
+
+        public void setTopNumber(int topNumber) {
+            this.topNumber = topNumber;
+        }
         
         public Restrictions getRestrictions() {
             return restrictions;

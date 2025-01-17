@@ -14,8 +14,18 @@ public class Artist extends TopItem {
     private String type;
     private String uri;
     
-    
+    private int topNumber;
+
     // Getters and Setters
+    public int getTopNumber() {
+        return topNumber;
+    }
+
+    public void setTopNumber(int topNumber) {
+        this.topNumber = topNumber;
+    }
+    
+    
     public ExternalUrls getExternal_urls() {
         return external_urls;
     }
