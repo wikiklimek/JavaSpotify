@@ -8,25 +8,28 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 @WebServlet("/callback")
 public class SpotifyCallbackServletEmail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	SpotifyAuthDictionaries dictionary;
+	private SpotifyAuthModel model;
 	String scope;
 	String info_to_get;
 	
 	@Override
 	public void init() throws ServletException {
-		SpotifyAuthModel model = new SpotifyAuthModel();
+		model = new SpotifyAuthModel();
 		SpotifyCallbackRedirectFunctions redirectFunctions = new SpotifyCallbackRedirectFunctions();
 		dictionary = new SpotifyAuthDictionaries(model, redirectFunctions);
-    	scope = "user-read-email";
+    	scope = "user-read-email user-top-read user-read-recently-played";
     	info_to_get = "my-email";
+   
 	}
 	
-    @Override
+  @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String authorizationCode = request.getParameter("code");
         if (authorizationCode != null) 
@@ -41,6 +44,8 @@ public class SpotifyCallbackServletEmail extends HttpServlet {
         }
     }
     
+
+	
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String key = request.getParameter("key-info");

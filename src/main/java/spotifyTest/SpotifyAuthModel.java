@@ -4,12 +4,17 @@ import helpers.*;
 import models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,46 +146,86 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	 return getRecentlyPlayedTracks(accessToken, "?limit=10");
  }
  
+// private List<Track> getRecentlyPlayedTracks(String accessToken, String limit) throws IOException {
+//
+//	    String recentlyPlayedURL = RECENTLY_PLAYED_URL + limit;
+//
+//	    try {
+//	    	
+//	    	String jsonResponse = getResponseString(recentlyPlayedURL, accessToken);
+//	    	//StringBuilder my_info = new StringBuilder();
+//	    	
+//	    	ObjectMapper mapper = new ObjectMapper();
+//	        SpotifyRecentlyResponse spotify_response = new SpotifyRecentlyResponse();
+//	        
+//	        try 
+//	        {
+//	        	spotify_response = mapper.readValue(jsonResponse, SpotifyRecentlyResponse.class);
+//	        }
+//	        catch(IOException e)
+//	        {
+//	        	System.out.println(e.getMessage());
+//	        }
+//	        
+//	        
+//	        List<Track> tracks = new ArrayList<Track>();
+//	        for(RecentlyItem item : spotify_response.getItems())
+//	        	tracks.add(item.getTrack());
+//	        
+//	        int i = 0;
+//		    for(Track track:tracks)
+//		        track.setTopNumber(++i);
+//	        
+//	        return tracks;
+//	    }
+//	    catch(IOException e)
+//	    {
+//	    	System.out.println(e.getMessage());
+//	    	//return e.getMessage();
+//	    	return new ArrayList<Track>();
+//	    }
+//	}
+// 
+ 
  private List<Track> getRecentlyPlayedTracks(String accessToken, String limit) throws IOException {
 
 	    String recentlyPlayedURL = RECENTLY_PLAYED_URL + limit;
+	    List<Track> trackList = new ArrayList<>();
 
 	    try {
-	    	
-	    	String jsonResponse = getResponseString(recentlyPlayedURL, accessToken);
-	    	//StringBuilder my_info = new StringBuilder();
-	    	
-	    	ObjectMapper mapper = new ObjectMapper();
-	        SpotifyRecentlyResponse spotify_response = new SpotifyRecentlyResponse();
+	        String jsonResponse = getResponseString(recentlyPlayedURL, accessToken);
 	        
-	        try 
-	        {
-	        	spotify_response = mapper.readValue(jsonResponse, SpotifyRecentlyResponse.class);
+	        ObjectMapper mapper = new ObjectMapper();
+	        SpotifyRecentlyResponse spotifyResponse = mapper.readValue(jsonResponse, SpotifyRecentlyResponse.class);
+	        
+	        // Przekształć listę RecentlyItem w listę Track
+	        for (RecentlyItem item : spotifyResponse.getItems()) {
+	            trackList.add(item.getTrack());
 	        }
-	        catch(IOException e)
-	        {
-	        	System.out.println(e.getMessage());
+
+	        // Dla każdego utworu z listy
+	        String accessTokenArtist = getAccessTokenNoAuthorisation();  // Nowy token, jeśli jest wymagany dla artystów
+	        for (Track track : trackList) {
+	            List<Artist> completeArtists = new ArrayList<>();
+	            
+	            // Dla każdego artysty w utworze
+	            for (Artist incompleteArtist : track.getArtists()) {
+	                Artist completeArtist = getArtistByID(accessTokenArtist, incompleteArtist.getId());
+	                completeArtists.add(completeArtist);  // Dodaj pełną wersję artysty
+	            }
+	            
+	            // Zaktualizuj listę artystów w utworze
+	            track.setArtists(completeArtists);
 	        }
-	        
-	        
-	        List<Track> tracks = new ArrayList<Track>();
-	        for(RecentlyItem item : spotify_response.getItems())
-	        	tracks.add(item.getTrack());
-	        
-	        int i = 0;
-		    for(Track track:tracks)
-		        track.setTopNumber(++i);
-	        
-	        return tracks;
+
+	    } catch (IOException e) {
+	        System.out.println(e.getMessage());
 	    }
-	    catch(IOException e)
-	    {
-	    	System.out.println(e.getMessage());
-	    	//return e.getMessage();
-	    	return new ArrayList<Track>();
-	    }
+
+	    return trackList;
 	}
- 
+
+
  public List<Artist> getTop10Artists(String accessToken) throws IOException {
 	 return getTopArtists(accessToken, "?limit=10");
  }
@@ -192,7 +237,6 @@ private String getResponseString(String stringURL, String accessToken) throws IO
  private List<Artist> getTopArtists(String accessToken, String limit) throws IOException {
 	    try {
 	    	List<Artist> topArtistList = getTopArtistsList(accessToken, limit);
-	    	
 	    	
 	    	int i = 0;
 		    for(Artist artist:topArtistList)
@@ -317,25 +361,43 @@ private String getResponseString(String stringURL, String accessToken) throws IO
  private List<Track> getTopPlayedTracksList(String accessToken, String limit) throws IOException {
 
 	    String topTracksURL = TOP_TRACKS_URL + limit;
+	    List<Track> trackList = new ArrayList<>();
 	    
 	    try {
 	    	
 	    	String jsonResponse = getResponseString(topTracksURL, accessToken);
-	    	
 	        ObjectMapper mapper = new ObjectMapper();
-	        SpotifyTopResponseTrack spotify_response = new SpotifyTopResponseTrack();
+	        //SpotifyTopResponseTrack spotify_response = new SpotifyTopResponseTrack();
+	        SpotifyTopResponseTrack spotify_response = mapper.readValue(jsonResponse, SpotifyTopResponseTrack.class);
+	        trackList = spotify_response.getItems();
 	        
-	        try 
-	        {
-	        	spotify_response = mapper.readValue(jsonResponse, SpotifyTopResponseTrack.class);
+	        String accessTokenArtist = getAccessTokenNoAuthorisation();  // Nowy token, jeśli jest wymagany dla artystów
+	        for (Track track : trackList) {
+	            List<Artist> completeArtists = new ArrayList<>();
+	            
+	            // Dla każdego artysty w utworze
+	            for (Artist incompleteArtist : track.getArtists()) {
+	                Artist completeArtist = getArtistByID(accessTokenArtist, incompleteArtist.getId());
+	                completeArtists.add(completeArtist);  // Dodaj pełną wersję artysty
+	            }
+	            
+	            // Zaktualizuj listę artystów w utworze
+	            track.setArtists(completeArtists);
 	        }
-	        catch(IOException e)
-	        {
-	        	System.out.println(e.getMessage());
-	        }
 	        
 	        
-	        return spotify_response.getItems();
+	        
+//	        try 
+//	        {
+//	        	spotify_response = mapper.readValue(jsonResponse, SpotifyTopResponseTrack.class);
+//	        }
+//	        catch(IOException e)
+//	        {
+//	        	System.out.println(e.getMessage());
+//	        }
+//	        
+//	        
+//	        return spotify_response.getItems();
 	        
 	    }
 	    catch(IOException e)
@@ -343,16 +405,19 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	    	System.out.println(e.getMessage());
 		  	return new ArrayList<Track>();
 		}
+	    
+	    return trackList;
 	}
  
- private Artist getArtistByID(String accessToken, String id) throws IOException {
+ public Artist getArtistByID(String accessToken, String id) throws IOException {
 	    String artistsURL = ARTISTS_URL + id;
 
 	    try {
 	    	
 	    	String jsonResponse = getResponseString(artistsURL, accessToken);
-	    	
-	        ObjectMapper mapper = new ObjectMapper();
+	    	System.out.println("Odpowiedź JSON przed mapowaniem: " + jsonResponse);
+
+	    	ObjectMapper mapper = new ObjectMapper();
 	        Artist artist = new Artist();
 	        
 	        try 
@@ -364,6 +429,11 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	        	System.out.println(e.getMessage());
 	        }
 	        
+	        
+	        if (artist.getImages() != null && !artist.getImages().isEmpty()) {
+	        	String imageUrl = artist.getImages().get(0).getUrl();  // Pobieranie URL pierwszego zdjęcia
+	        	artist.setImageUrl(imageUrl);
+	        }  
 	        
 	        return artist;
 	        

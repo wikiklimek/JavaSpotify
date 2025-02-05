@@ -5,8 +5,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public abstract class SpotifyPaths {
-	protected static final String CLIENT_ID = "d5a36d2fb4ab4c97b1242436455b6e3c";
-	protected static final String CLIENT_SECRET = "6380e1c56f794e2da495c6bf3e44977f";
+	//protected static final String CLIENT_ID = "d5a36d2fb4ab4c97b1242436455b6e3c";
+	protected static final String CLIENT_ID = "dfcf25faae0248778d696bf74e8d41f3";
+	//protected static final String CLIENT_SECRET = "6380e1c56f794e2da495c6bf3e44977f";
+	protected static final String CLIENT_SECRET = "249c779e16b14cd2a085fb981bc0a816";
 	protected static final String REDIRECT_URI = "http://localhost:8080/WebAppTest1/callback";
 	protected static final String AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
 	protected static final String TOKEN_URL = "https://accounts.spotify.com/api/token";

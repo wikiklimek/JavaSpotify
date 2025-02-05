@@ -13,7 +13,7 @@ public class Artist extends TopItem {
     private int popularity;
     private String type;
     private String uri;
-    
+    private String imageUrl;
     private int topNumber;
 
     // Getters and Setters
@@ -72,8 +72,19 @@ public class Artist extends TopItem {
 
     public void setImages(List<Image> images) {
         this.images = images;
+        if (images != null && !images.isEmpty()) {
+            this.imageUrl = images.get(0).getUrl(); 
+        }
+    }
+    public String getImageUrl() {
+        return imageUrl;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    
+    
     public String getName() {
         return name;
     }
@@ -105,4 +116,7 @@ public class Artist extends TopItem {
     public void setUri(String uri) {
         this.uri = uri;
     }
+    
+    
+
 }

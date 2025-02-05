@@ -6,6 +6,7 @@
     pageEncoding="UTF-8"%>
     <%
     	UserProfile user = (UserProfile) session.getAttribute("user");
+    	String profileImageUrl = user.getImages().isEmpty() ? "" : user.getImages().get(0).getUrl();
     %>
 <!DOCTYPE html>
 <html>
@@ -20,6 +21,9 @@
         <img src="images/spotify.png" alt="Spotify Logo" class="logo">
     </div>
     <div class="info-container">
+    	<div class="profile-photo">
+            <img src="${profileImageUrl}" alt="Profile Image" class="profile-img">
+        </div>
         <h2>Your email:</h2>
         <p class="info"><c:out value="${user.email}"/></p>
         <h2>Your name:</h2>
