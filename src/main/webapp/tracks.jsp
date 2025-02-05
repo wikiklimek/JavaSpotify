@@ -22,18 +22,15 @@
 </div>
 <h2>${title}</h2>
 <c:forEach var="track" items = "${list}">
-	<tr>
-		<td><p><c:out value="${track.topNumber}"/>. <c:out value="${track.name}"/></p></td>
-		<td><p style="text-indent: 20px;">Album: <c:out value="${track.album.name}"/></p></td>
-		<td><p style="text-indent: 20px;">Artists: </p></td>
-		<td>
+	<div>
+		<p><c:out value="${track.topNumber}"/>. <c:out value="${track.name}"/></p>
+		<p style="text-indent: 20px;">Album: <c:out value="${track.album.name}"/></p>
+		<p style="text-indent: 20px;">Artists: </p>
+		
 			<c:forEach var="artist" items = "${track.artists}">
-				<tr>
-					<td><p style="text-indent: 40px;"><c:out value="${artist.name}"/></p></td>
-				</tr>
+				<p style="text-indent: 40px;"><c:out value="${artist.name}"/></p>
 			</c:forEach>
-		</td>
-	</tr>
+	</div>
 </c:forEach>
 <a href="index.jsp">
         <button class="redirect-button">Check other statistics</button>

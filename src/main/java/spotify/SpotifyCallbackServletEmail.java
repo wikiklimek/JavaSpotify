@@ -49,6 +49,7 @@ public class SpotifyCallbackServletEmail extends HttpServlet {
     	scope = dictionary.getScope(key);
     	
         String authorizationUrl = SpotifyPaths.getAuthorizationUrl(scope);
+        //System.out.println(authorizationUrl);
         response.sendRedirect(authorizationUrl); 
     }
     
