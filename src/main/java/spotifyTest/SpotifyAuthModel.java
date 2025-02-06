@@ -27,6 +27,7 @@ public class SpotifyAuthModel extends SpotifyPaths {
  
 private String getAccessToken(String body) throws IOException
 {
+	
 	 URL url = new URL(TOKEN_URL);
 	 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	 connection.setRequestMethod("POST");
@@ -36,6 +37,7 @@ private String getAccessToken(String body) throws IOException
          byte[] input = body.getBytes(StandardCharsets.UTF_8);
          os.write(input, 0, input.length);
      }
+	 
      
          String jsonResponse = readResponseStringFromConnection(connection);
          TokenResponse token_response = new TokenResponse();
@@ -49,7 +51,8 @@ private String getAccessToken(String body) throws IOException
 	     {
 	         System.out.println(e.getMessage());
 	     }
-	     
+       
+         
          return token_response.getAccessToken();
 	    
 }
@@ -567,6 +570,38 @@ private List<Episode> getUserSavedEpisodesList(String accessToken, String limit)
 	}
     
     return episodeList;
+}
+
+public Track getCurrentlyPlaying(String accessToken) throws IOException {
+
+    String currentlyURL = CURRENTLY_PLAYING;
+    
+    try {
+    	
+    	String jsonResponse = getResponseString(currentlyURL, accessToken);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        
+        SpotifyCurrentlyPlaying spotify_response = new SpotifyCurrentlyPlaying();
+        
+        try 
+        {
+        	spotify_response = mapper.readValue(jsonResponse, SpotifyCurrentlyPlaying.class);
+        }
+        catch(IOException e)
+        {
+        	System.out.println(e.getMessage());
+        }
+        
+        return spotify_response.getItem();
+        
+    }
+    catch(IOException e)
+	{
+    	System.out.println(e.getMessage());
+	  	return new Track();
+	}
+    
 }
 }
 

@@ -35,6 +35,7 @@
             <button type="submit" name="key-info" value="top-25-genres">Top 25 Genres</button>
             <button type="submit" name="key-info" value="saved-shows">Your Saved Shows</button>
             <button type="submit" name="key-info" value="saved-episodes">Your Saved Episodes</button>
+            <button type="submit" name="key-info" value="currently-playing">Currently Playing Track</button>
         </form>
     </div>
 </body>

@@ -2,6 +2,7 @@ package models;
 
 import java.util.List;
 
+
 public class Track extends TopItem {
         private Album album;
         private List<Artist> artists;
@@ -23,6 +24,9 @@ public class Track extends TopItem {
         private boolean is_local;
         private Restrictions restrictions; 
         private int topNumber;
+        
+        
+       
 
         // Getters and Setters
         public int getTopNumber() {

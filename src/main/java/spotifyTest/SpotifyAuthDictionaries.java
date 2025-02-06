@@ -1,6 +1,7 @@
 package spotifyTest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +110,20 @@ public SpotifyAuthDictionaries(SpotifyAuthModel model, SpotifyCallbackRedirectFu
 		   redirectFunctions.redirrectToViewEpisodes(request, response,"Saved Episodes", episodes);
 	   }
    });
+   dictionaryFunctions.put("currently-playing", new WebFunctionCalls() 
+   {
+	   public void myFunc (HttpServletRequest request, HttpServletResponse response, String str) throws ServletException, IOException  
+	   {
+		   Track track = model.getCurrentlyPlaying(str);
+		   List<Track> tracks = new ArrayList<Track>();
+		   tracks.add(track);
+		   redirectFunctions.redirrectToViewTracks(request, response,"Currently Playing", tracks);
+	   }
+   });
    
+   
+   //currently-playing
+   //user-read-currently-playing
    
    dictionaryScopes = new HashMap<String, String>();
    dictionaryScopes.put("my-email", "user-read-email");
@@ -123,6 +137,7 @@ public SpotifyAuthDictionaries(SpotifyAuthModel model, SpotifyCallbackRedirectFu
    dictionaryScopes.put("top-25-genres", "user-top-read");
    dictionaryScopes.put("saved-shows", "user-library-read");
    dictionaryScopes.put("saved-episodes", "user-library-read");
+   dictionaryScopes.put("currently-playing", "user-read-currently-playing");
 }
 
 public String getScope(String info_to_get)
