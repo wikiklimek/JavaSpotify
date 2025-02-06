@@ -136,3 +136,240 @@ a {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
+
+.title {
+        position: absolute;
+        top: 15%;  /* Pozycjonowanie w pionie na środku */
+        left: 50%;  /* Pozycjonowanie w poziomie na środku */
+        transform: translateX(-50%);  /* Ustawi tytuł dokładnie na środku */
+        font-size: 24px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        animation: slideInCenter 1s ease-out forwards;
+ }
+
+
+@keyframes slideInCenter {
+        0% { 
+            left:100%;
+        }
+        100% {
+            left: 50%;
+         
+}}
+
+
+.track-list-container {
+		width: 700px;
+        max-height: 500px; /* Maksymalna wysokość kontenera */
+        overflow-y: auto; /* Dodanie scrollbara */
+        margin-top: 200px;
+        border-radius: 8px;
+        background: linear-gradient(to bottom, #ffffff, #2c2c2c);
+        padding: 10px;
+ 
+    }
+        
+.track {
+    margin: 20px;
+    width:400px;
+    heigth: 10px;
+    padding: 10px;
+  	background: #2c2c2c;
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.artist {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.artist-photo {
+  	width: 50px;  /* Określ rozmiar zdjęcia artysty */
+    height: 50px;
+    border-radius: 50%;
+    background-color: #d3d3d3; /* Szare tło, gdy brak zdjęcia */
+    overflow: hidden;
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.artist-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artist-name {
+    font-size: 16px;
+    font-weight: bold;
+}     
+
+.artist-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    overflow: hidden;
+    position: relative;
+    margin: 50px 0;
+}
+
+.artist-list {
+    display: flex;
+	transition: transform 0.5s ease-in-out;
+}
+
+.artist-card {
+    flex: 0 0 auto;
+    margin: 0 10px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    text-align: center;
+    display: none;
+}
+
+.artist-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.arrow {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0 20px;
+    z-index: 10;
+    position:absolute; 
+
+}
+
+.arrow.left {
+	position: absolute;
+	left: 0;
+    background-color: #1e1e1e;
+    width: 100px;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    padding: 15px 20px; 
+    border: none;
+    border-radius: 25px;
+    height: 70px;
+    display: block; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.arrow.right {
+	position: absolute;
+	right:0;
+    background-color: #1e1e1e;
+    width: 100px;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    padding: 15px 20px; 
+    border: none;
+    border-radius: 25px;
+    height: 70px;
+    display: block; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.arrow:hover {
+    color: #1db954;
+} 
+
+/* button {
+    background-color: #1db954; 
+    color: #ffffff;
+    font-size: 1.5em; 
+    font-weight: 500;
+    padding: 15px 20px; 
+    border: none;
+    border-radius: 25px;
+    margin: 10px auto; 
+    width: 400px; 
+    height: 70px;
+    display: block; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #14833b; 
+    transform: translateY(-5px); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+} */
+
+.genre-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    background: linear-gradient(to bottom, #1db954, #2c2c2c); /* Gradientowe tło */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto; /* Włącza suwak pionowy */
+    height: 300px; /* Wysokość kontenera z suwakami */
+}
+
+.genre-list {
+    list-style-type: none; /* Usuwamy domyślny styl listy */
+    padding: 0;
+    margin: 0;
+}
+
+.genre-item {
+    background-color: #333; /* Tło dla każdego elementu listy */
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.genre-item p {
+    margin: 0;
+}
+
+.genre-item:hover {
+    background-color: #14833b; /* Zmiana tła przy najechaniu */
+    cursor: pointer;
+}
+        
+        
+.profile-photo {
+    margin-right: 20px; /
+}
+
+.profile-img {
+    width: 100px;  
+    height: 100px;
+    border-radius: 50%; 
+    object-fit: cover;  
+}
+ 
