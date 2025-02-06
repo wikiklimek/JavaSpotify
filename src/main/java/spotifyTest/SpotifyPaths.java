@@ -18,6 +18,8 @@ public abstract class SpotifyPaths {
 	protected static final String TOP_TRACKS_URL = "https://api.spotify.com/v1/me/top/tracks";
 	protected static final String TOP_ARTISTS_URL ="https://api.spotify.com/v1/me/top/artists";
 	protected static final String RECENTLY_PLAYED_URL = "https://api.spotify.com/v1/me/player/recently-played";
+	protected static final String USER_SAVED_SHOWS = "https://api.spotify.com/v1/me/shows";
+	protected static final String USER_SAVED_EPISODES = "https://api.spotify.com/v1/me/episodes";
 	
 	public static String getAuthorizationUrl(String scope) {
 		 String state = UUID.randomUUID().toString();

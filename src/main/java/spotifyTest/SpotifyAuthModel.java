@@ -3,6 +3,8 @@ package spotifyTest;
 import helpers.*;
 import models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -196,7 +198,19 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	        String jsonResponse = getResponseString(recentlyPlayedURL, accessToken);
 	        
 	        ObjectMapper mapper = new ObjectMapper();
-	        SpotifyRecentlyResponse spotifyResponse = mapper.readValue(jsonResponse, SpotifyRecentlyResponse.class);
+	        
+	        
+	        //SpotifyRecentlyResponse spotifyResponse = mapper.readValue(jsonResponse, SpotifyRecentlyResponse.class);
+	        SpotifyRecentlyResponse spotifyResponse = new SpotifyRecentlyResponse();
+	        try 
+	        {
+	        	spotifyResponse = mapper.readValue(jsonResponse, SpotifyRecentlyResponse.class);
+	        }
+	        catch(IOException e)
+	        {
+	        	System.out.println(e.getMessage());
+	        }
+	        
 	        
 	        // Przekształć listę RecentlyItem w listę Track
 	        for (RecentlyItem item : spotifyResponse.getItems()) {
@@ -367,8 +381,17 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	    	
 	    	String jsonResponse = getResponseString(topTracksURL, accessToken);
 	        ObjectMapper mapper = new ObjectMapper();
-	        //SpotifyTopResponseTrack spotify_response = new SpotifyTopResponseTrack();
-	        SpotifyTopResponseTrack spotify_response = mapper.readValue(jsonResponse, SpotifyTopResponseTrack.class);
+	        SpotifyTopResponseTrack spotify_response = new SpotifyTopResponseTrack();
+	        
+	        try 
+	        {
+	        	spotify_response = mapper.readValue(jsonResponse, SpotifyTopResponseTrack.class);
+	        }
+	        catch(IOException e)
+	        {
+	        	System.out.println(e.getMessage());
+	        }
+	        
 	        trackList = spotify_response.getItems();
 	        
 	        String accessTokenArtist = getAccessTokenNoAuthorisation();  // Nowy token, jeśli jest wymagany dla artystów
@@ -386,19 +409,6 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	        }
 	        
 	        
-	        
-//	        try 
-//	        {
-//	        	spotify_response = mapper.readValue(jsonResponse, SpotifyTopResponseTrack.class);
-//	        }
-//	        catch(IOException e)
-//	        {
-//	        	System.out.println(e.getMessage());
-//	        }
-//	        
-//	        
-//	        return spotify_response.getItems();
-	        
 	    }
 	    catch(IOException e)
 		{
@@ -415,7 +425,7 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	    try {
 	    	
 	    	String jsonResponse = getResponseString(artistsURL, accessToken);
-	    	System.out.println("Odpowiedź JSON przed mapowaniem: " + jsonResponse);
+	    	//System.out.println("Odpowiedź JSON przed mapowaniem: " + jsonResponse);
 
 	    	ObjectMapper mapper = new ObjectMapper();
 	        Artist artist = new Artist();
@@ -477,6 +487,87 @@ private String getResponseString(String stringURL, String accessToken) throws IO
 	    }
 	}
  
+ public List<Show> get50SavedShows(String accessToken) throws IOException {
+	    return getUserSavedShowsList(accessToken, "?limit=50");
+	}
+
+private List<Show> getUserSavedShowsList(String accessToken, String limit) throws IOException {
+
+    String savedShowsURL = USER_SAVED_SHOWS + limit;
+    List<Show> showList = new ArrayList<>();
+    
+    try {
+    	
+    	String jsonResponse = getResponseString(savedShowsURL, accessToken);
+        ObjectMapper mapper = new ObjectMapper();
+        SpotifyShowsResponse spotify_response = new SpotifyShowsResponse();
+        
+        try 
+        {
+        	spotify_response = mapper.readValue(jsonResponse, SpotifyShowsResponse.class);
+        }
+        catch(IOException e)
+        {
+        	System.out.println(e.getMessage());
+        }
+        
+        for(ShowItem item : spotify_response.getItems())
+        	showList.add(item.getShow());
+        
+        
+        
+        
+    }
+    catch(IOException e)
+	{
+    	System.out.println(e.getMessage());
+	  	return new ArrayList<Show>();
+	}
+    
+    return showList;
+}
+
+public List<Episode> get50SavedEpisodes(String accessToken) throws IOException {
+    return getUserSavedEpisodesList(accessToken, "?limit=50");
+}
+
+private List<Episode> getUserSavedEpisodesList(String accessToken, String limit) throws IOException {
+
+    String savedEpisodesURL = USER_SAVED_EPISODES + limit;
+    List<Episode> episodeList = new ArrayList<>();
+    
+    try {
+    	
+    	String jsonResponse = getResponseString(savedEpisodesURL, accessToken);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        
+        SpotifyEpisodesResponse spotify_response = new SpotifyEpisodesResponse();
+        
+        try 
+        {
+        	spotify_response = mapper.readValue(jsonResponse, SpotifyEpisodesResponse.class);
+        }
+        catch(IOException e)
+        {
+        	System.out.println(e.getMessage());
+        }
+        
+        for(EpisodeItem item : spotify_response.getItems())
+        	episodeList.add(item.getEpisode());
+        
+        
+        
+        
+    }
+    catch(IOException e)
+	{
+    	System.out.println(e.getMessage());
+	  	return new ArrayList<Episode>();
+	}
+    
+    return episodeList;
+}
 }
 
 

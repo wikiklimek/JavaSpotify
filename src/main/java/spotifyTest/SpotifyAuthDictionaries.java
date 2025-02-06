@@ -93,7 +93,22 @@ public SpotifyAuthDictionaries(SpotifyAuthModel model, SpotifyCallbackRedirectFu
 		   redirectFunctions.redirrectToViewGenres(request, response,"Top 25 Genres", genres);
 	   }
    });
-   
+   dictionaryFunctions.put("saved-shows", new WebFunctionCalls() 
+   {
+	   public void myFunc (HttpServletRequest request, HttpServletResponse response, String str) throws ServletException, IOException  
+	   {
+		   List<Show> shows = model.get50SavedShows(str);
+		   redirectFunctions.redirrectToViewShows(request, response,"Saved Shows", shows);
+	   }
+   });
+   dictionaryFunctions.put("saved-episodes", new WebFunctionCalls() 
+   {
+	   public void myFunc (HttpServletRequest request, HttpServletResponse response, String str) throws ServletException, IOException  
+	   {
+		   List<Episode> episodes = model.get50SavedEpisodes(str);
+		   redirectFunctions.redirrectToViewEpisodes(request, response,"Saved Episodes", episodes);
+	   }
+   });
    
    
    dictionaryScopes = new HashMap<String, String>();
@@ -106,6 +121,8 @@ public SpotifyAuthDictionaries(SpotifyAuthModel model, SpotifyCallbackRedirectFu
    dictionaryScopes.put("recently-played-10-tracks", "user-read-recently-played");
    dictionaryScopes.put("top-10-genres", "user-top-read");
    dictionaryScopes.put("top-25-genres", "user-top-read");
+   dictionaryScopes.put("saved-shows", "user-library-read");
+   dictionaryScopes.put("saved-episodes", "user-library-read");
 }
 
 public String getScope(String info_to_get)

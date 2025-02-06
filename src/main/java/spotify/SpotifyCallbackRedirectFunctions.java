@@ -42,4 +42,20 @@ public class SpotifyCallbackRedirectFunctions {
     	hs.setAttribute("user", user);
     	response.sendRedirect("user-info.jsp");
     }
+    
+    public void redirrectToViewShows(HttpServletRequest request, HttpServletResponse response,String title, List<Show> shows) throws ServletException, IOException 
+    {
+    	HttpSession hs = request.getSession();
+    	hs.setAttribute("title", title);
+    	hs.setAttribute("shows", shows);
+    	response.sendRedirect("saved-shows.jsp");
+    }
+    
+    public void redirrectToViewEpisodes(HttpServletRequest request, HttpServletResponse response,String title, List<Episode> episodes) throws ServletException, IOException 
+    {
+    	HttpSession hs = request.getSession();
+    	hs.setAttribute("title", title);
+    	hs.setAttribute("episodes", episodes);
+    	response.sendRedirect("saved-episodes.jsp");
+    }
 }
