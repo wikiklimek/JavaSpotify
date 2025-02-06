@@ -20,7 +20,6 @@ private final Map<String, String> dictionaryScopes;
 
 public SpotifyAuthDictionaries(SpotifyAuthModel model, SpotifyCallbackRedirectFunctions redirectFunctions) {
    this.model = model;
-   
    dictionaryFunctions = new HashMap<String, WebFunctionCalls>();
    dictionaryFunctions.put("my-email", new WebFunctionCalls() 
    {

@@ -69,7 +69,6 @@ button:hover {
     transform: translateY(-5px); 
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
 }
-
 /* Dostosowanie przycisków na urządzenia mobilne */
 @media (max-width: 600px) {
     button {
@@ -373,4 +372,3 @@ button:hover {
     border-radius: 50%; 
     object-fit: cover;  
 }
- 
