@@ -36,10 +36,10 @@
                 <p>
     				<c:choose>
         				<c:when test="${track.topNumber != null && track.topNumber != 0}">
-            			<c:out value="${track.topNumber}"/>. 
+            				<span class='track-number'><c:out value="${track.topNumber}"/>. </span>
         				</c:when>
     				</c:choose>
-    				<c:out value="${track.name}"/>
+    				<span class='track-name'><c:out value="${track.name}"/></span>
 				</p>
                 <p>by</p>
                 <c:forEach var="artist" items="${track.artists}">

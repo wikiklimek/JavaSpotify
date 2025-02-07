@@ -35,27 +35,16 @@ public class SpotifyCallbackRedirectFunctions {
     	response.sendRedirect("artists.jsp");
     }
 
-    public void redirrectToViewUserInfo(HttpServletRequest request, HttpServletResponse response,String title, UserProfile user) throws ServletException, IOException 
+    public void redirrectToViewUserInfo(HttpServletRequest request, HttpServletResponse response,String title, UserProfile user, List<Episode> episodes, List<Show> shows, Track track) throws ServletException, IOException 
     {
     	HttpSession hs = request.getSession();
     	hs.setAttribute("title", title);
     	hs.setAttribute("user", user);
+    	hs.setAttribute("episodes", episodes);
+    	hs.setAttribute("shows", shows);
+    	hs.setAttribute("currentlyPlaying", track);
     	response.sendRedirect("user-info.jsp");
     }
     
-    public void redirrectToViewShows(HttpServletRequest request, HttpServletResponse response,String title, List<Show> shows) throws ServletException, IOException 
-    {
-    	HttpSession hs = request.getSession();
-    	hs.setAttribute("title", title);
-    	hs.setAttribute("shows", shows);
-    	response.sendRedirect("saved-shows.jsp");
-    }
-    
-    public void redirrectToViewEpisodes(HttpServletRequest request, HttpServletResponse response,String title, List<Episode> episodes) throws ServletException, IOException 
-    {
-    	HttpSession hs = request.getSession();
-    	hs.setAttribute("title", title);
-    	hs.setAttribute("episodes", episodes);
-    	response.sendRedirect("saved-episodes.jsp");
-    }
+
 }

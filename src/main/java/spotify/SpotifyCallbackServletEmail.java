@@ -24,7 +24,7 @@ public class SpotifyCallbackServletEmail extends HttpServlet {
 		model = new SpotifyAuthModel();
 		SpotifyCallbackRedirectFunctions redirectFunctions = new SpotifyCallbackRedirectFunctions();
 		dictionary = new SpotifyAuthDictionaries(model, redirectFunctions);
-    	scope = "user-read-email user-top-read user-read-recently-played";
+    	scope = "user-read-email user-top-read user-read-recently-played user-library-read user-read-currently-playing";
     	info_to_get = "my-email";
    
 	}

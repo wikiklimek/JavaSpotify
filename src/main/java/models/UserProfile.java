@@ -25,6 +25,7 @@ public class UserProfile {
     private String product;
     private String type;
     private String uri;
+    private String imageUrl;
 
     
     // Getters and Setters for UserProfile
@@ -98,7 +99,18 @@ public class UserProfile {
 
     public void setImages(List<Image> images) {
         this.images = images;
+        if (images != null && !images.isEmpty()) {
+            this.imageUrl = images.get(0).getUrl(); 
+        }
     }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    
 
     public String getProduct() {
         return product;

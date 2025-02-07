@@ -33,9 +33,9 @@
             <button type="submit" name="key-info" value="top-10-artists">Top 10 Artists</button>
             <button type="submit" name="key-info" value="top-10-genres">Top 10 Genres</button>
             <button type="submit" name="key-info" value="top-25-genres">Top 25 Genres</button>
-            <button type="submit" name="key-info" value="saved-shows">Your Saved Shows</button>
+  <!--           <button type="submit" name="key-info" value="saved-shows">Your Saved Shows</button>
             <button type="submit" name="key-info" value="saved-episodes">Your Saved Episodes</button>
-            <button type="submit" name="key-info" value="currently-playing">Currently Playing Track</button>
+            <button type="submit" name="key-info" value="currently-playing">Currently Playing Track</button> -->
         </form>
     </div>
 </body>
