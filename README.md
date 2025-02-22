@@ -3,7 +3,7 @@
 This project is a Java-based application developed using Servlets, which interacts with Spotify's API to fetch and display music-related data. The backend is powered by Java Servlets, while the frontend is built with HTML and CSS for a simple yet functional user interface.
 
 ## Features
-- Display albums, artists, and tracks from Spotify's API.
+- Display genres, artists, shows, episodes and tracks from Spotify's API.
 - User-friendly interface designed with HTML and styled with CSS.
 - Seamless integration of Spotify's API for real-time data retrieval.
 
