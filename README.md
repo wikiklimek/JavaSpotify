@@ -16,4 +16,4 @@ To run this application locally, follow these steps:
 ## Screenshots
 Below are some screenshots of the application interface:
 
-*(Include screenshots here)*
+![Main page](main.PNG)
