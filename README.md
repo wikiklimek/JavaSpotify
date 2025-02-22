@@ -29,4 +29,4 @@ Below are some screenshots of the application interface:
 ![artists page](artists.PNG)
 
 ## top genres page
-![top genres page](genres.PNG)
+
