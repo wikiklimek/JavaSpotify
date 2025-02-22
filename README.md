@@ -13,7 +13,17 @@ To run this application locally, follow these steps:
 2. Set up a local server (e.g., Apache Tomcat).
 3. Configure Spotify API credentials in the application.
 
-## Screenshots
+# Screenshots
 Below are some screenshots of the application interface:
 
+## main page
 ![Main page](main.PNG)
+
+## personal data page
+![personal page](personal_data.PNG)
+
+## Songs page
+![songs page](top_songs.PNG)
+
+## Top artists page
+![artists page](artists.PNG)
