@@ -27,3 +27,6 @@ Below are some screenshots of the application interface:
 
 ## Top artists page
 ![artists page](artists.PNG)
+
+## top genres page
+![genres page](genres.PNG)
